@@ -1,12 +1,11 @@
 #include <iostream>
-#include "Queue.h"
+#include "include/Queue.h"
 using namespace std;
 
-// 생성자
 Queue::Queue() { front = rear = NULL; }
 
 void Queue::push(Process* job) {
-	if (front == NULL) {	// 큐가 비어있는 경우
+	if (front == NULL) {
 		front = rear = job;
 	}
 	else {
@@ -16,7 +15,7 @@ void Queue::push(Process* job) {
 }
 
 Process* Queue::pop() {
-	if (front == NULL) {	// 큐가 비어있는 경우
+	if (front == NULL) {
 		return NULL;
 	}
 

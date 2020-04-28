@@ -1,4 +1,5 @@
-#include "FIFO.h"
+#include <iomanip>
+#include "include/FIFO.h"
 
 FIFO::FIFO(Process** process) : Scheduler(process) { 
 	queue = new Queue();
@@ -6,9 +7,6 @@ FIFO::FIFO(Process** process) : Scheduler(process) {
 
 // 스케줄링 수행
 void FIFO::doSchedule() {
-
-	Process* running = NULL;
-
 	for (int t = 0; t < timeSum; t++) {
 		// 도착한 job을 큐에 넣음
 		pushProcess(t);
@@ -17,6 +15,8 @@ void FIFO::doSchedule() {
 		if (t == runtime)
 			runProcess(t);
 	}
+
+	// 결과 출력
 	printSchedule();
 }
 
@@ -32,9 +32,9 @@ void FIFO::runProcess(int time) {
 
 	running = queue->pop();
 	for (int t = 0; running; t++) {
-		cout << (char)(running->getPid() + 'A') << " ";
+		cout << setw(2) << (char)(running->getPid() + 'A');
 		running->addPerformedTime(1); // 수행시간 1초 추가
-		resultArr[running->getPid()][time + t] = 1;
+		resultArr[running->getPid()][time + t] = 1; // 결과 출력 위해 배열에 1저장
 		runtime++;
 
 		if (running->getServiceTime() == running->getPerformedTime())

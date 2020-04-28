@@ -1,6 +1,7 @@
 #include <cmath>
-#include "MLFQ.h"
-#include "Scheduler.h"
+#include <iomanip>
+#include "include/MLFQ.h"
+#include "include/Scheduler.h"
 
 // 생성자
 MLFQ::MLFQ(Process** process, int quantum, int s, int q) : Scheduler(process) {
@@ -20,7 +21,7 @@ void MLFQ::doSchedule() {
 		// 실제 수행시간과 시간의 흐름(t)을 동기화 시켜주기 위함
 		if (t == runtime) {
 
-			// job 수행
+			// job 수행 -> timeQuantum이 null이면 2^i로 인식
 			if (timeQuantum) 
 				runProcess(t, timeQuantum, priority);
 			else
@@ -36,6 +37,8 @@ void MLFQ::doSchedule() {
 			boosting();
 		}
 	}
+
+	// 결과 출력
 	printSchedule();
 }
 
@@ -71,12 +74,14 @@ void MLFQ::runProcess(int time, int quantum, int& p) {
 	// 우선 순위가 높은 큐부터 수행, 같은 큐에 있는 job들은 RR 방식으로수행 -> rule 1 & rule 2
 	for (p = 0; p < Q; p++) {
 		if (running = queue[p].pop()) {
+
 			// 큐에서 job을 가져와 1초동안 수행
 			for (int q = 0; running && q < quantum; q++) {
-				cout << (char)(running->getPid() + 'A') << " ";
+				cout << setw(2) << (char)(running->getPid() + 'A');
 				running->addPerformedTime(1); // 수행시간 1초 추가
-				resultArr[running->getPid()][time + q] = 1;
+				resultArr[running->getPid()][time + q] = 1; // 결과 출력 위해 배열에 1저장
 				runtime++;
+
 				// quantum이 끝나지 않았더라도 job의 수행이 끝나면 종료
 				if (running->getServiceTime() == running->getPerformedTime()) {
 					running = NULL;
@@ -90,16 +95,19 @@ void MLFQ::runProcess(int time, int quantum, int& p) {
 
 // 프로세스 수행 - time slice = 2^i 인 경우
 void MLFQ::runProcess(int time, int& p) {
+
 	// 우선 순위가 높은 큐부터 수행, 같은 큐에 있는 job들은 RR 방식으로수행 -> rule 1 & rule 2
 	for (p = 0; p < Q; p++) {
-		int quantum = pow(2, p);
+		int quantum = (int)pow(2, p);
 		if (running = queue[p].pop()) {
+
 			// 큐에서 job을 가져와서 time slice만큼 수행
 			for (int q = 0; running && q < quantum; q++) {
-				cout << (char)(running->getPid() + 'A') << " ";
+				cout << setw(2) << (char)(running->getPid() + 'A');
 				running->addPerformedTime(1); // 수행시간 1초 추가
-				resultArr[running->getPid()][time + q] = 1;
+				resultArr[running->getPid()][time + q] = 1; // 결과 출력 위해 배열에 1저장
 				runtime++;
+
 				// quantum이 끝나지 않았더라도 job의 수행이 끝나면 종료
 				if (running->getServiceTime() == running->getPerformedTime()) {
 					running = NULL;

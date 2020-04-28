@@ -1,4 +1,5 @@
-#include "RR.h"
+#include <iomanip>
+#include "include/RR.h"
 
 RR::RR(Process** process, int quantum) : Scheduler(process) {
 	timeQuantum = quantum;
@@ -24,6 +25,7 @@ void RR::doSchedule() {
 		}
 	}
 
+	// 결과 출력
 	printSchedule();
 }
 
@@ -47,10 +49,11 @@ void RR::repushProcess() {
 void RR::runProcess(int time, int quantum) {
 	running = queue->pop();
 	for (int q = 0; running && q < quantum; q++) {
-		cout << (char)(running->getPid() + 'A') << " ";
+		cout << setw(2) << (char)(running->getPid() + 'A');
 		running->addPerformedTime(1); // 수행시간 1초 추가
-		resultArr[running->getPid()][runtime] = 1;
+		resultArr[running->getPid()][runtime] = 1; // 결과 출력 위해 배열에 1저장
 		runtime++; // 런타임 증가
+
 		// time quantum이 끝나지 않았지만 job의 수행이 끝나면 종료
 		if (running->getServiceTime() == running->getPerformedTime()) {
 			running = NULL;
