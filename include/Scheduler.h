@@ -1,13 +1,12 @@
 #ifndef SCHEDULER_H
 #define SCHEDULER_H
 #include <iostream>
-#include "Process.h"
+#include "include/Process.h"
 using namespace std;
 
 class Scheduler {
 protected:
 	int** resultArr;		// 각 초마다 수행 여부 결과 저장하는 배열
-	int metricsArr[6][2];	// 성능분석 위한 값 저장
 	int timeSum;			// 모든 job의 service time 합계
 	int runtime;			// 스케줄러 수행시간
 	Process* running;		// 수행중인 프로세스

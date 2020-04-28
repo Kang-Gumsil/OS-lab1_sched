@@ -1,8 +1,8 @@
 #ifndef MLFQ_H
 #define MLFQ_H
-#include "Process.h"
-#include "Scheduler.h"
-#include "Queue.h"
+#include "include/Process.h"
+#include "include/Scheduler.h"
+#include "include/Queue.h"
 
 class MLFQ : public Scheduler { // 4개의 Queue를 가지고 있고 time quantum이 1인 MLFQ
 private:

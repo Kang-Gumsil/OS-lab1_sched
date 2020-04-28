@@ -1,8 +1,8 @@
 #ifndef RR_H
 #define RR_H
-#include "Process.h"
-#include "Scheduler.h"
-#include "Queue.h"
+#include "include/Process.h"
+#include "include/Scheduler.h"
+#include "include/Queue.h"
 
 class RR : public Scheduler {
 private:
