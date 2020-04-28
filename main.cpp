@@ -69,9 +69,9 @@ int main() {
 }
 
 void setProcess(Process** ptr) {
-	int processNum[5][2] = { {0, 3}, {2, 6}, {4, 4}, {6, 5}, {8, 2} };
 
 	// 橇肺技胶 按眉 积己
+	int processNum[5][2] = { {0, 3}, {2, 6}, {4, 4}, {6, 5}, {8, 2} };
 	for (int i = 0; i < 5; i++)
 		ptr[i] = new Process(processNum[i][0], processNum[i][1]);
 

@@ -1,7 +1,7 @@
 #ifndef SCHEDULER_H
 #define SCHEDULER_H
 #include <iostream>
-#include "include/Process.h"
+#include "Process.h"
 using namespace std;
 
 class Scheduler {

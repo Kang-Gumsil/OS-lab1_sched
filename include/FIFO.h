@@ -1,9 +1,9 @@
 #ifndef FIFO_H
 #define FIFO_H
 #include <iostream>
-#include "include/Process.h"
-#include "include/Scheduler.h"
-#include "include/Queue.h"
+#include "Process.h"
+#include "Scheduler.h"
+#include "Queue.h"
 using namespace std;
 
 class FIFO : public Scheduler {
