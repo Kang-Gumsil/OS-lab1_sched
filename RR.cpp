@@ -6,30 +6,31 @@ RR::RR(Process** process, int quantum) : Scheduler(process) {
 	queue = new Queue();
 }
 
-// ½ºÄÉÁÙ¸µ ¼öÇà
+// ìŠ¤ì¼€ì¤„ë§ ìˆ˜í–‰
 void RR::doSchedule() {
-	for (int t = 0; t < timeSum; t++) { // 1ÃÊ¸¶´Ù ¼öÇà
+	for (int t = 0; t < timeSum; t++) { // 1ì´ˆë§ˆë‹¤ ìˆ˜í–‰
 
-		// µµÂøÇÑ jobÀ» Å¥¿¡ ³ÖÀ½
+		// ë„ì°©í•œ jobì„ íì— ë„£ìŒ
 		pushProcess(t);
 
-		// timeoutµÈ jobÀ» Å¥¿¡ ´Ù½Ã ³Ö¾îÁÜ
+		// timeoutëœ jobì„ íì— ë‹¤ì‹œ ë„£ì–´ì¤Œ
 		if (t == runtime) {
-			if (running)
+			if (running) {
 				repushProcess();
+			}	
 		}
 
-		// ÇÁ·Î¼¼½º ¼öÇà
+		// í”„ë¡œì„¸ìŠ¤ ìˆ˜í–‰
 		if (t == runtime) {
 			runProcess(t, timeQuantum);
 		}
 	}
 
-	// °á°ú Ãâ·Â
+	// ê²°ê³¼ ì¶œë ¥
 	printSchedule();
 }
 
-// Å¥¿¡ µµÂøÇÑ job ³Ö¾îÁÜ
+// íì— ë„ì°©í•œ job ë„£ì–´ì¤Œ
 void RR::pushProcess(int time) {
 	for (int i = 0; i < 5; i++) {
 		if (time == job[i]->getArriveTime())
@@ -37,7 +38,7 @@ void RR::pushProcess(int time) {
 	}
 }
 
-// ÃÑ ½ÇÇàÀÌ ³¡³ªÁö ¾Ê¾ÒÁö¸¸ time quantumÀÌ ³¡³­ job ´Ù½Ã Å¥¿¡ ³Ö¾îÁÜ
+// ì´ ì‹¤í–‰ì´ ëë‚˜ì§€ ì•Šì•˜ì§€ë§Œ time quantumì´ ëë‚œ job ë‹¤ì‹œ íì— ë„£ì–´ì¤Œ
 void RR::repushProcess() {
 	if (running->getServiceTime() > running->getPerformedTime()) {
 		queue->push(running);
@@ -45,16 +46,16 @@ void RR::repushProcess() {
 	}
 }
 
-// ÇÁ·Î¼¼½º ¼öÇà
+// í”„ë¡œì„¸ìŠ¤ ìˆ˜í–‰
 void RR::runProcess(int time, int quantum) {
 	running = queue->pop();
 	for (int q = 0; running && q < quantum; q++) {
 		cout << setw(2) << (char)(running->getPid() + 'A');
-		running->addPerformedTime(1); // ¼öÇà½Ã°£ 1ÃÊ Ãß°¡
-		resultArr[running->getPid()][runtime] = 1; // °á°ú Ãâ·Â À§ÇØ ¹è¿­¿¡ 1ÀúÀå
-		runtime++; // ·±Å¸ÀÓ Áõ°¡
+		running->addPerformedTime(1); // ìˆ˜í–‰ì‹œê°„ 1ì´ˆ ì¶”ê°€
+		resultArr[running->getPid()][runtime] = 1; // ê²°ê³¼ ì¶œë ¥ ìœ„í•´ ë°°ì—´ì— 1ì €ì¥
+		runtime++; // ëŸ°íƒ€ì„ ì¦ê°€
 
-		// time quantumÀÌ ³¡³ªÁö ¾Ê¾ÒÁö¸¸ jobÀÇ ¼öÇàÀÌ ³¡³ª¸é Á¾·á
+		// time quantumì´ ëë‚˜ì§€ ì•Šì•˜ì§€ë§Œ jobì˜ ìˆ˜í–‰ì´ ëë‚˜ë©´ ì¢…ë£Œ
 		if (running->getServiceTime() == running->getPerformedTime()) {
 			running = NULL;
 			break;
